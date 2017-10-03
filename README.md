@@ -12,7 +12,7 @@ Overview
 
 * Submit the form by giving to and from date (with validation)
 
-* The result displays graph based on the response data.
+* The result displays graphical representation of the response data.
 
 * List gives the tabular format.
 

@@ -11,7 +11,9 @@ app.controller("greedyGameController", function($scope, $http) {
             packages: ['corechart', 'bar']
         });
         $(window).resize(function() {
-            drawBasic();
+            if ($scope.ads.length != 0) {
+                drawBarGraph();
+            }
         });
     });
     $scope.form = {
@@ -45,18 +47,20 @@ app.controller("greedyGameController", function($scope, $http) {
     };
 
     function _success(response) {
-        $scope.viewList = true;
         $scope.ads = response.data.data;
-        $scope.graphdata = [
-            ['string', 'ad Requests']
-        ];
-        for (var i = 0; i < $scope.ads.length; i++) {
-            $scope.graphdata.push([response.data.data[i].date, Number(response.data.data[i].adrequest)]);
+        $scope.viewList = true;
+        if ($scope.ads.length != 0) {
+            $scope.graphdata = [
+                ['string', 'ad Requests']
+            ];
+            for (var i = 0; i < $scope.ads.length; i++) {
+                $scope.graphdata.push([response.data.data[i].date, Number(response.data.data[i].adrequest)]);
+            }
+            google.charts.setOnLoadCallback(drawBarGraph);
         }
-        google.charts.setOnLoadCallback(drawBasic);
     }
 
-    function drawBasic() {
+    function drawBarGraph() {
         var data = google.visualization.arrayToDataTable($scope.graphdata);
         var options = {
             title: 'Number of Ad Requests',
